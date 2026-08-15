@@ -1,0 +1,49 @@
+Need to gauge market conditions: 
+- need to have a few markers or tiers of market conditions 
+- ex: bad, not bad, okay, good, great 
+
+Assertain the effectiveness of the strat based on the conditions of the 
+market 
+
+Methods to gauge conditions:
+- can use moving avergae (window=200) day moving avg and test if price is above (good) 
+or below (bad)
+- the ADX above 25 is a strong indicator
+
+
+- do not need to trade options you can trade leveraged securities 
+
+TODO: 
+*explore famous strategies
+
+trend-following algs:
+    - WID: buys assets in an uptrend (price inc) and sells in a downtrend
+    - Common indicators include moving avgs (MACD, or ADX)
+    - uses 50 or 200 day SMA to confirm trends 
+    - has stop losses or trailing stops to limit losses if the trend reverses 
+*****
+if strategy_type == 'Long Only' and adx.iloc[i] > 25 and data['Close'].iloc[i] > sma.iloc[i]:
+# Proceed with buy signal)
+*****
+
+mean reversion algs:
+    - WID: assumes prices revert to their mean after deviating. Trades are initiated when prices 
+    are "overextended" (extremes of RSI or MA)
+    - aims to profit when price returns to the mean 
+    - used in ranging markets (low ADX)
+    - can use ADX when less than 20 to improve double dip strategy 
+*****
+from ta.volatility import BollingerBands
+bb = BollingerBands(data['Close'], window=20)
+bb_low = bb.bollinger_lband()
+if buy_signal.iloc[i] and data['Close'].iloc[i] < bb_low.iloc[i]:
+*****
+
+arbitrage algs:
+    - 
+volume-weighted avg price exec algs 
+pair trading algs
+market-making algs 
+
+GOAL:
+- 60 min trades 
