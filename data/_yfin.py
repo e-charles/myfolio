@@ -18,14 +18,16 @@
 #     return s
 
 
-from curl_cffi import Session, WebSocketRetryStrategy
-from datetime import timedelta
+# from curl_cffi import Session, WebSocketRetryStrategy
+# from datetime import timedelta
 
-import pprint
+# import pprint
 
-url = 'https://etfdb.com'
+# url = 'https://etfdb.com'
 
-# strategy = WebSocketRetryStrategy(count=3, delay=0.2, jitter=0.1, backoff="exponential")
-with Session(cache=timedelta(minutes=5), retry=3) as s:
-    r = s.get(url)
-    pprint.pprint(r.cookies)
+# # strategy = WebSocketRetryStrategy(count=3, delay=0.2, jitter=0.1, backoff="exponential")
+# with Session(cache=timedelta(minutes=5), retry=3) as s:
+#     r = s.get(url)
+#     pprint.pprint(r.cookies)
+
+import yfinance as yf

@@ -1,16 +1,25 @@
+from playwright.sync_api import sync_playwright
+from _puppet import ScraperConfig, EtfScraper
 
+config = ScraperConfig(base_url="https://etfdb.com")
 
-class SiteMeta():
-    def __init__(self, session=None):
-        self._crumb = None 
-        self._cookie = None
+with sync_playwright() as pw: 
+    browser = pw.chromium.launch(headless=config.headless)
 
-        self._cookie_strategy = 'basic' # if fails use csrf 
+    try: 
+        sectors = ['technology', 'consumer-discretionaries', 
+        'consumer-staples', 'materials', 'industrials', 'real-estate',
+         'financials', 'healthcare', 'telecom', 'utilities', 'energy']
+        result = []
+        
+        scraper = EtfScraper(browser, config)
+        scraper.set_page_cookies()
 
-        self._cookie_lock = threading.Lock()
+        etfs = scraper.scrape_sectors(sectors)
+        for etf in etfs:
+            result.append(scraper.scrape_etf_holdings(etf))
 
-        self._session = None 
-        self._set_session(session or new_session())
-
-
-    def get(self, url, params=None, timeout=30):
+        scraper.save_to_json(result)
+        
+    finally:
+        scraper.close()
